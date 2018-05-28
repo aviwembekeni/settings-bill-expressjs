@@ -31,7 +31,8 @@ app.get("/", function(req, res){
   var sms_total = (totals.sms).toFixed(2);
   var total = (totals.total).toFixed(2);
   var color = billSettings.checkColor();
-  res.render("bill_settings", {call_total, sms_total, total, color });
+  res.render("bill_settings", {call_total, sms_total, total, color, settingsData: billSettings.checkSettings() });
+
 })
 
 app.post('/calculate', function(req, res){
@@ -45,7 +46,7 @@ app.post('/calculate', function(req, res){
    var sms_total = (totals.sms).toFixed(2);
    var total = (totals.total).toFixed(2);
    var color = billSettings.checkColor();
-   res.render("bill_settings", {call_total, sms_total, total, color});
+   res.render("bill_settings", {call_total, sms_total, total, color, settingsData: billSettings.checkSettings()});
 
     // note that data can be sent to the template
     //res.render('bill_settings', {call_cost, sms_cost, warning_level, critical_level})

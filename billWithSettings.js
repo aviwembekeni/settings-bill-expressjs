@@ -15,30 +15,32 @@ module.exports = function(){
  var billRecords = [];
 
    var calculateRadioBillSett = function(billItemType){
+     if (settings["criticalLevelSetting"] > bills["total"]) {
 
-     let bill = {
-       billType : billItemType,
-       timeStamp : new Date()
-     }
+         let bill = {
+           billType : billItemType,
+           timeStamp : new Date()
+         }
 
-        if(billItemType == 'call'){
-          bills[billItemType] += settings.callCostSetting;
-          bill.cost = bills[billItemType];
-        }else if (billItemType == 'sms') {
-          bills[billItemType] += settings.smsCostSetting;
-          bill.cost = bills[billItemType];
-        }
+          if(billItemType == 'call'){
+            bills[billItemType] += settings.callCostSetting;
+            bill.cost = bills[billItemType];
+          }else if (billItemType == 'sms') {
+            bills[billItemType] += settings.smsCostSetting;
+            bill.cost = bills[billItemType];
+          }
 
 
 
-        bills['total'] = bills['sms'] + bills['call'];
+          bills['total'] = bills['sms'] + bills['call'];
 
-        billRecords.unshift(bill);
+          billRecords.unshift(bill);
 
-        if (bills['total'] >= settings["criticalLevelSetting"]) {
-            color = "danger";
-        } else if(bills['total'] >= settings["warningLevelSetting"]){
-            color = "warning";
+          if (bills['total'] >= settings["criticalLevelSetting"]) {
+              color = "danger";
+          } else if(bills['total'] >= settings["warningLevelSetting"]){
+              color = "warning";
+          }
         }
 
     };

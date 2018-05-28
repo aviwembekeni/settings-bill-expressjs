@@ -38,10 +38,10 @@
     <form action="/update"  method="POST">
       <h4>Settings</h4>
       <br>
-        <label>Call cost <input class="sett" type="number" step="any" name="call_cost" ></label><br><br>
-        <label>SMS cost <input class="sett" type="number" step="any" name="sms_cost" ></label><br><br>
-        <label>Warning level <input class="sett" type="number" step="any" name="warning_level" ></label><br><br>
-        <label>Critical level <input class="sett" type="number" step="any" name="critical_level" ></label><br>
+        <label>Call cost <input class="sett" value="{{settingsData.callCostSetting}}" type="number" step="any" name="call_cost" ></label><br><br>
+        <label>SMS cost <input class="sett" value="{{settingsData.smsCostSetting}}" type="number" step="any" name="sms_cost" ></label><br><br>
+        <label>Warning level <input class="sett" value="{{settingsData.warningLevelSetting}}" type="number" step="any" name="warning_level" ></label><br><br>
+        <label>Critical level <input class="sett" value="{{settingsData.criticalLevelSetting}}" type="number" step="any" name="critical_level" ></label><br>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect addButton" type="submit" style="background-color:#1AB365; color:white">
             Update settings
         </button>
