@@ -1,0 +1,46 @@
+body{
+  background-color: #E8F3EC;
+}
+
+.wrapper{
+  padding: 2em;
+}
+
+.sett{
+  width: 100%;
+}
+
+.addButton{
+  padding-top: 2em;
+}
+
+.warning{
+  color: orange;
+}
+
+.danger{
+  color: red;
+}
+
+#record {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#record td, #record th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#record tr:nth-child(even){background-color: #f2f2f2;}
+
+#record tr:hover {background-color: #ddd;}
+
+#record th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

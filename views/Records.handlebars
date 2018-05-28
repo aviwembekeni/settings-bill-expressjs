@@ -1,0 +1,21 @@
+<h1 class="phone-bill">Phone bill Records</h1>
+
+<div class="container">
+<table id="record">
+ <tr>
+    <th>BillType</th>
+    <th>Price</th>
+    <th>Time</th>
+  </tr>
+     {{#each bill}}
+  <tr>
+
+    <td>{{billType}}</td>
+    <td>R{{cost}}</td>
+    <td>{{momentDate}}</td>
+
+  </tr>
+   {{/each}}
+
+</table>
+</div>

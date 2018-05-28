@@ -1,0 +1,52 @@
+<div class="wrapper">
+
+<h3>Bill with settings</h3>
+<p>Select the call or sms radio button.
+   Update the appropriate total and the overall total when the ADD button in pressed.
+   Calls costs should now be configurable using the settings section.</p>
+   <p>If the total cost exceed the warning level show the total cost in orange,
+      if it exceeds the critical level show it in red and prevent any new costs from being added.
+      The warning and critical level should both be configurable now.</p>
+   <br>
+   <hr>
+
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+
+    <form action="/calculate"  method="POST">
+
+       <h4>Bill type</h4>
+        <label>  <input type="radio" name="billType" value="call"> Call</label><br>
+        <label>  <input type="radio" name="billType" value="sms"> SMS</label><br>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect addButton" type="submit" style="background-color:#1AB365; color:white">
+            ADD
+        </button><br>
+
+
+    </form>
+
+    <h4>Totals</h4>
+    <p><a href="/actions/call">Call total</a>  R{{call_total}}</p>
+    <p><a href="/actions/sms">SMS total</a>  R{{sms_total}}</p>
+    <p class={{color}}><a href="/actions">Total</a>  R{{total}}</p>
+
+  </div>
+
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet">
+
+
+    <form action="/update"  method="POST">
+      <h4>Settings</h4>
+      <br>
+        <label>Call cost <input class="sett" type="number" step="any" name="call_cost" ></label><br><br>
+        <label>SMS cost <input class="sett" type="number" step="any" name="sms_cost" ></label><br><br>
+        <label>Warning level <input class="sett" type="number" step="any" name="warning_level" ></label><br><br>
+        <label>Critical level <input class="sett" type="number" step="any" name="critical_level" ></label><br>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect addButton" type="submit" style="background-color:#1AB365; color:white">
+            Update settings
+        </button>
+    </form>
+  </div>
+
+</div>
+</div>
