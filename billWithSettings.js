@@ -24,10 +24,10 @@ module.exports = function(){
 
           if(billItemType == 'call'){
             bills[billItemType] += settings.callCostSetting;
-            bill.cost = bills[billItemType];
+            bill.cost = settings["callCostSetting"];
           }else if (billItemType == 'sms') {
             bills[billItemType] += settings.smsCostSetting;
-            bill.cost = bills[billItemType];
+            bill.cost = settings["smsCostSetting"];
           }
 
 

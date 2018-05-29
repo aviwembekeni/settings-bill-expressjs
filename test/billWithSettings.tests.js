@@ -236,14 +236,14 @@ describe('checkColor', function() {
 describe('checkCallHistory', function() {
 
 
-    it('should return callHistoryRecord total', function() {
+    it('should return callHistoryRecord callCost', function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
       billSettings.calculate('call');
       billSettings.calculate('call');
 
-      assert.equal(8.25, billSettings.checkCallHistory()[0].cost);
+      assert.equal(2.75, billSettings.checkCallHistory()[0].cost);
     });
 
 });
