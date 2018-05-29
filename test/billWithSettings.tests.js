@@ -1,11 +1,11 @@
 let assert = require("assert");
-var billWithSettings = require("../billWithSettings");
+var BillWithSettings = require("../billWithSettings");
 
 describe('calculateRadioBillSett', function() {
 
 
     it('should return bill amount for smses and the bills object', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
       billSettings.calculate('call');
@@ -17,7 +17,7 @@ describe('calculateRadioBillSett', function() {
     });
 
     it('should return bill amount for calls and the bills object', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
 
       billSettings.calculate('call');
@@ -29,7 +29,7 @@ describe('calculateRadioBillSett', function() {
     });
 
     it('should return 0 for smes when smses dont exist', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
 
@@ -37,7 +37,7 @@ describe('calculateRadioBillSett', function() {
     });
 
     it('should return 0 for calls when calls dont exist', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
 
       billSettings.calculate('sms');
@@ -53,11 +53,11 @@ describe('updateCallCost', function() {
 
 
     it('should update callCostSetting to passed value', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.updateCall(3.12);
 
-      assert.deepEqual(3.12, billSettings.checkCall());
+      assert.equal(3.12, billSettings.checkCall());
     });
 
 });
@@ -66,11 +66,11 @@ describe('updateSmsCost', function() {
 
 
     it('should update smsCostSetting to passed value', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.updateSms(3.12);
 
-      assert.deepEqual(3.12, billSettings.checkSms());
+      assert.equal(3.12, billSettings.checkSms());
     });
 
 });
@@ -79,11 +79,11 @@ describe('updateWarningLevel', function() {
 
 
     it('should update warningLevelSetting to passed value', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.updateWarningLevel(50.2);
 
-      assert.deepEqual(50.2, billSettings.checkWarningLevel());
+      assert.equal(50.2, billSettings.checkWarningLevel());
     });
 
 });
@@ -92,11 +92,11 @@ describe('updateCriticalLevel', function() {
 
 
     it('should update criticalLevelSetting to passed value', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.updateCriticalLevel(60.4);
 
-      assert.deepEqual(60.4, billSettings.checkCriticalLevel());
+      assert.equal(60.4, billSettings.checkCriticalLevel());
     });
 
 });
@@ -105,7 +105,7 @@ describe('checkSettings', function() {
 
 
     it('should return settings', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
       let settings = {callCostSetting: 2.75,
                       smsCostSetting: 0.75,
                       warningLevelSetting: 40,
@@ -121,9 +121,9 @@ describe('checkColor', function() {
 
 
     it('should return default color', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
-      assert.deepEqual("normal", billSettings.checkColor());
+      assert.equal("normal", billSettings.checkColor());
     });
 
 });
@@ -132,7 +132,7 @@ describe('checkColor', function() {
 
 
     it('should return warning when warning level is reached', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
       billSettings.calculate('call');
@@ -170,7 +170,7 @@ describe('checkColor', function() {
       billSettings.calculate('sms');
       billSettings.calculate('sms');
 
-      assert.deepEqual("warning", billSettings.checkColor());
+      assert.equal("warning", billSettings.checkColor());
     });
 
 });
@@ -179,7 +179,7 @@ describe('checkColor', function() {
 
 
     it('should return danger when critical level is reached', function() {
-      var billSettings = billWithSettings();
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
       billSettings.calculate('call');
@@ -228,7 +228,7 @@ describe('checkColor', function() {
       billSettings.calculate('sms');
 
 
-      assert.deepEqual("danger", billSettings.checkColor());
+      assert.equal("danger", billSettings.checkColor());
     });
 
 });
@@ -236,27 +236,29 @@ describe('checkColor', function() {
 describe('checkCallHistory', function() {
 
 
-    it('should return callHistoryRecord', function() {
-      var billSettings = billWithSettings();
+    it('should return callHistoryRecord total', function() {
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
       billSettings.calculate('call');
       billSettings.calculate('call');
 
-      var date = new Date();
+      assert.equal(8.25, billSettings.checkCallHistory()[0].cost);
+    });
 
-      let hist = [ { billType: 'call',
-        timeStamp: date,
-        cost: 8.25 },
-      { billType: 'call',
-        timeStamp: date,
-        cost: 5.5 },
-      { billType: 'call',
-        timeStamp: date,
-        cost: 2.75 } ]
+});
+
+describe('checkCallHistory', function() {
 
 
-      assert.deepEqual(hist, billSettings.checkCallHistory());
+    it("should return 'call' as callHistoryRecord billType", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+
+      assert.equal("call", billSettings.checkCallHistory()[0].billType);
     });
 
 });
@@ -264,27 +266,66 @@ describe('checkCallHistory', function() {
 describe('checkSmsHistory', function() {
 
 
-    it('should return smsHistoryRecord', function() {
-      var billSettings = billWithSettings();
+    it('should return smsHistoryRecord total', function() {
+      var billSettings = BillWithSettings();
 
       billSettings.calculate('sms');
       billSettings.calculate('sms');
       billSettings.calculate('sms');
 
-      var date = new Date();
+      assert.equal(2.25, billSettings.checkSmsHistory()[0].cost);
 
-      let hist = [ { billType: 'sms',
-        timeStamp: date,
-        cost: 2.25 },
-      { billType: 'sms',
-        timeStamp: date,
-        cost: 1.5 },
-      { billType: 'sms',
-        timeStamp: date,
-        cost: 0.75 } ]
+      });
 
+});
 
-      assert.deepEqual(hist, billSettings.checkSmsHistory());
+describe('checkSmsHistory', function() {
+
+    it("should return 'sms' smsHistoryRecord total", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+
+      assert.equal("sms", billSettings.checkSmsHistory()[0].billType);
+
+    });
+
+});
+
+describe('checkBillRecords', function() {
+
+    it("should return total of the last billType 'call'", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+
+      assert.equal(8.25, billSettings.checkBillRecords()[0].cost);
+
+    });
+
+});
+
+describe('checkBillRecords', function() {
+
+    it("should return total of the last billType 'sms'", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+      billSettings.calculate('sms');
+
+      assert.equal(2.25, billSettings.checkBillRecords()[0].cost);
+
     });
 
 });
