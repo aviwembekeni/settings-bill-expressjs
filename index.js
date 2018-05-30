@@ -63,7 +63,13 @@ app.post('/update', function(req, res){
   billSettings.updateWarningLevel(warning_level);
   billSettings.updateCriticalLevel(critical_level);
 
-    res.redirect('/');
+  res.redirect('/');
+});
+
+app.get('/clear', function(req, res){
+   billSettings.resetBills();
+
+  res.redirect('/');
 });
 
 app.get('/actions',function(req,res) {

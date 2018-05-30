@@ -86,6 +86,10 @@ module.exports = function(){
          return  settings["criticalLevelSetting"]
      }
 
+     var checkBills = function(billItemType){
+         return bills;
+     }
+
     var checkRadioBillSett = function(billItemType){
         return {
           requestedBill : bills[billItemType],
@@ -115,8 +119,22 @@ module.exports = function(){
       return billRecords
     }
 
+    var resetBills = function(){
+      bills.call = 0;
+      bills.sms = 0;
+      bills.total = 0;
+
+      settings.callCostSetting = 2.75;
+      settings.smsCostSetting = 0.75;
+      settings.warningLevelSetting = 40;
+      settings.criticalLevelSetting = 75;
+
+      color = "normal";
+    }
+
     return {
         calculate : calculateRadioBillSett,
+        checkBills,
         check : checkRadioBillSett,
         updateCall : updateCallCost,
         checkCall : checkCallCost,
@@ -130,7 +148,8 @@ module.exports = function(){
         checkColor,
         checkCallHistory,
         checkSmsHistory,
-        checkBillRecords
+        checkBillRecords,
+        resetBills
 
     }
 

@@ -236,7 +236,7 @@ describe('checkColor', function() {
 describe('checkCallHistory', function() {
 
 
-    it('should return callHistoryRecord callCost', function() {
+    it('should return callHistoryRecord last callCost', function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
@@ -266,14 +266,14 @@ describe('checkCallHistory', function() {
 describe('checkSmsHistory', function() {
 
 
-    it('should return smsHistoryRecord total', function() {
+    it('should return smsHistoryRecord last smsCost', function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('sms');
       billSettings.calculate('sms');
       billSettings.calculate('sms');
 
-      assert.equal(2.25, billSettings.checkSmsHistory()[0].cost);
+      assert.equal(0.75, billSettings.checkSmsHistory()[0].cost);
 
       });
 
@@ -281,7 +281,7 @@ describe('checkSmsHistory', function() {
 
 describe('checkSmsHistory', function() {
 
-    it("should return 'sms' smsHistoryRecord total", function() {
+    it("should return 'sms' as smsHistoryRecord billType", function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('sms');
@@ -296,7 +296,7 @@ describe('checkSmsHistory', function() {
 
 describe('checkBillRecords', function() {
 
-    it("should return total of the last billType 'call'", function() {
+    it("should return cost of the last billType 'call'", function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('sms');
@@ -306,7 +306,7 @@ describe('checkBillRecords', function() {
       billSettings.calculate('call');
       billSettings.calculate('call');
 
-      assert.equal(8.25, billSettings.checkBillRecords()[0].cost);
+      assert.equal(2.75, billSettings.checkBillRecords()[0].cost);
 
     });
 
@@ -314,7 +314,7 @@ describe('checkBillRecords', function() {
 
 describe('checkBillRecords', function() {
 
-    it("should return total of the last billType 'sms'", function() {
+    it("should return cost of the last billType 'sms'", function() {
       var billSettings = BillWithSettings();
 
       billSettings.calculate('call');
@@ -324,8 +324,82 @@ describe('checkBillRecords', function() {
       billSettings.calculate('sms');
       billSettings.calculate('sms');
 
-      assert.equal(2.25, billSettings.checkBillRecords()[0].cost);
+      assert.equal(0.75, billSettings.checkBillRecords()[0].cost);
 
+    });
+
+});
+
+describe('checkBillRecords', function() {
+
+    it("should return updated cost of the last billType 'call'", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+
+      billSettings.updateCall(5);
+
+      billSettings.calculate('call');
+
+
+      assert.equal(5, billSettings.checkBillRecords()[0].cost);
+
+    });
+
+    it("should return updated cost of the last billType 'sms'", function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate('call');
+      billSettings.calculate('call');
+
+      billSettings.updateSms(2.23);
+
+      billSettings.calculate('sms');
+
+
+      assert.equal(2.23, billSettings.checkBillRecords()[0].cost);
+
+    });
+
+});
+
+describe('resetBills', function() {
+
+
+    it('should return default settings', function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.updateCall(3.12);
+      billSettings.updateSms(2);
+      billSettings.updateWarningLevel(50);
+      billSettings.updateCriticalLevel(80);
+
+      billSettings.resetBills();
+
+
+      let settings = {callCostSetting: 2.75,
+                      smsCostSetting: 0.75,
+                      warningLevelSetting: 40,
+                      criticalLevelSetting: 75
+                      };
+
+      assert.deepEqual(settings, billSettings.checkSettings());
+    });
+
+    it('should return default bills with value = 0', function() {
+      var billSettings = BillWithSettings();
+
+      billSettings.calculate("call");
+      billSettings.calculate("sms");
+
+      billSettings.resetBills();
+
+      let bills = {call:0,
+                   sms:0,
+                   total: 0};
+
+      assert.deepEqual(bills, billSettings.checkBills());
     });
 
 });
